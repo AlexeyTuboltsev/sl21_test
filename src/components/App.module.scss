@@ -1,0 +1,213 @@
+@import "../styles/global.module";
+
+
+
+.header {
+  position: relative;
+
+  display: grid;
+  grid-template: 1fr auto/ #{$logo-size} minmax(324px, 20%) 1fr;
+  grid-column-gap: 20px;
+  padding: 20px 20px 0 20px;
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 10px 10px 0;
+    grid-template: auto auto auto / #{$logo-size-small} 1fr;
+    grid-row-gap: 0;
+  }
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  // background-color: rgba($color-blue, 0.8);
+  min-width: 324px;
+  // padding: 20px;
+  color: $sl21_green;
+  font-size: 25px;
+  font-weight: 500;
+
+  cursor: url('data:image/svg+xml;utf8,<svg viewBox="0 0 512 512" height="20" width="20" fill="#000000"  stroke="none" stroke-width="1" fill-rule="evenodd"><path d="M170.666667,7.10542736e-15 C264.768,7.10542736e-15 341.333333,76.5653333 341.333333,170.666667 C341.333333,210.048 327.786667,246.250667 305.322667,275.136 L305.322667,275.136 L426.624,396.458667 L396.458667,426.624 L275.136,305.322667 C246.250667,327.786667 210.048,341.333333 170.666667,341.333333 C76.5653333,341.333333 7.10542736e-15,264.768 7.10542736e-15,170.666667 C7.10542736e-15,76.5653333 76.5653333,7.10542736e-15 170.666667,7.10542736e-15 Z M170.666667,42.6666667 C100.074667,42.6666667 42.6666667,100.074667 42.6666667,170.666667 C42.6666667,241.258667 100.074667,298.666667 170.666667,298.666667 C241.258667,298.666667 298.666667,241.258667 298.666667,170.666667 C298.666667,100.074667 241.258667,42.6666667 170.666667,42.6666667 Z M256,149.333333 L256,192 L85.3333333,192 L85.3333333,149.333333 L256,149.333333 Z" /></svg>');
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 22px;
+    grid-row: 2;
+    grid-column: 1 /span 2;
+    padding: 10px;
+    margin-top: 10px;
+
+  }
+}
+
+.content {
+  position: relative;
+  padding: 0;
+  height: 100%;
+  overflow: auto;
+
+  @media (max-width: $breakpoint-mobile) {
+    grid-template: 1fr / 1fr;
+    padding: 0 10px 20px;
+  }
+}
+
+
+.svg-base {
+
+  .timetable {
+    fill: #ffffff;
+    stroke: none;
+    cursor: grab;
+
+  }
+
+  .station-track {
+    fill: none;
+    stroke: #cfcfcf;
+    stroke-width: 1px;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .route {
+    fill: none;
+    stroke: $sl21_green;
+    stroke-linejoin: round;
+    stroke-width: 5px;
+    vector-effect: non-scaling-stroke;
+    cursor: pointer;
+
+    &:hover {
+      stroke-linecap:round;
+      stroke: $color-orange;
+      stroke-width: 10px;
+    }
+  }
+
+  .stop {
+    fill: none;
+    stroke: $sl21_green;
+    stroke-width: 5px;
+    stroke-linejoin: round;
+    stroke-linecap:butt;
+    vector-effect: non-scaling-stroke;
+    cursor: pointer;
+
+    &:hover {
+      stroke-linecap:round;
+      stroke: $color-orange;
+      stroke-width: 15px;
+    }
+  }
+
+  .ruler-center {
+    fill: #ffffff;
+    stroke: #757575;
+    stroke-width: 1px;
+    cursor: zoom-in;
+  }
+
+  .ruler-x {
+    fill: #ffffff;
+    stroke: #757575;
+    stroke-width: 1px;
+    cursor: zoom-in;
+  }
+
+  .ruler-y {
+    fill: #ffffff;
+    stroke: #757575;
+    stroke-width: 1px;
+
+    cursor: zoom-in;
+  }
+
+  .ruler-line-invisible {
+    stroke: transparent;
+    stroke-width: 1px;
+  }
+
+  .ruler-line-second {
+    stroke: #757575;
+    stroke-width: 0.5px;
+  }
+
+  .ruler-line-minute {
+    stroke: $sl21_green;
+    stroke-width: 0.5px;
+  }
+
+  .ruler-line-hour {
+    stroke: #757575;
+    stroke-width: 1px;
+  }
+
+  .ruler-x-station-marker {
+    stroke: #757575;
+    stroke-width: 0.5px;
+  }
+
+  .ruler-x-station-name {
+    fill: #757575;
+    cursor: pointer;
+    font-size: 11px;
+
+
+    &:hover {
+      font-weight: 500;
+      fill: $sl21_green
+    }
+  }
+}
+
+
+.main-wrapper {
+  width: 100vw;
+  height: 100vh;
+
+  display: grid;
+  grid-template: auto 1fr / 1fr;
+  grid-gap: 20px;
+  padding: 20px;
+  justify-items: center;
+}
+
+.timetable-wrapper {
+  width: 1410px;
+  height: 810px;
+
+  padding: 2px;
+  border-radius: 4px;
+  border: 1px solid $sl21_green;
+  overflow: hidden;
+}
+
+.modal {
+  display: none;
+  position: absolute;
+  top: 70px;
+  right: 10px;
+
+  min-width: 200px;
+  min-height: 100px;
+  background-color: #ffffff;
+  border: 1px solid $sl21_green;
+  border-radius: 4px;
+  padding: 0 5px 0;
+
+  grid-template: auto 1fr / 1fr;
+
+  &.visible {
+    display: grid;
+  }
+}
+
+.modal-content {
+  padding: 7px;
+  height: 100%;
+  width: 100%;
+}
+
+.modal-close-button {
+  justify-self: flex-end;
+  cursor: pointer;
+}
