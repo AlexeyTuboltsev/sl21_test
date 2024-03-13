@@ -41,7 +41,6 @@ const TimetableStates: FC<{ state: TReadyAppState }> = ({ state }) => {
 }
 
 const Modal: FC<any> = ({ state, data }) => { //fixme: any
-  console.log("data",data)
   const dispatch = useDispatch();
 
   return <div className={cn(styles.modal, { [styles.visible]: state === EModalState.MODAL_OPEN })}>
@@ -51,7 +50,6 @@ const Modal: FC<any> = ({ state, data }) => { //fixme: any
 }
 
 const ModalContent: FC<any> = (props) => {
-  console.log(props)
   switch (props.state) {
     case EProcessState.ERROR:
       return <div className={styles.modalContent}>error</div>
@@ -283,7 +281,8 @@ function lockPointer(element: SVGRectElement | null, pointerId: number) {
 }
 
 function unlockPointer(element: SVGRectElement | null, pointerId: number) {
-  if (element !== null) {
+  console.log(pointerId)
+  if (element !== null && Number.isInteger(pointerId)) {
     element.releasePointerCapture(pointerId)
   }
 }
