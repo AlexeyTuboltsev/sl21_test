@@ -128,7 +128,7 @@ const Timetable: FC<TTimetableData> = ({
           .map((routePart, j) => {
             return <g key={routePart.key} >
               <line
-                onClick={() => dispatch(actions.openModal())}
+                onClick={() => dispatch(actions.showTransferInfo(routePart.key as any))}
                 className={styles.route}
                 x1={routePart.transfer.from.x}
                 y1={routePart.transfer.from.y}
@@ -136,7 +136,7 @@ const Timetable: FC<TTimetableData> = ({
                 y2={routePart.transfer.to.y}
               />
               <line
-                onClick={() => dispatch(actions.openModal())}
+                onClick={() => dispatch(actions.showTransferInfo(routePart.key as any))}
                 className={styles.stop}
                 x1={routePart.stop.from.x}
                 y1={routePart.stop.from.y}

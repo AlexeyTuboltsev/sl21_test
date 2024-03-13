@@ -1,10 +1,8 @@
 import { call, put, delay } from "redux-saga/effects";
 import { createRequest, EHttpMethod } from "../services/httpRequest";
-import { AxiosResponse } from "axios";
-import { TSegment, TTimetableData, TStopData } from "../types";
-import { segments, stops } from "../test_data";
+import { stops } from "../test_data";
 
-export function* stationInfoLoaderSaga<ResponseType>(method: EHttpMethod, url: string, stationId:string,responseType: ResponseType, responseAction: any) {
+export function* stationInfoLoaderSaga<ResponseType>(method: EHttpMethod, url: string, stationId: string, responseType: ResponseType, responseAction: any) {
   try {
     // const {
     //   data,
@@ -15,7 +13,7 @@ export function* stationInfoLoaderSaga<ResponseType>(method: EHttpMethod, url: s
     //-- dummy request
     yield delay(1000);
     const data = stops.find(stop => stop.id === stationId)
-    
+
     const statusText = "ok"
     const status = 200
     //-- dummy request

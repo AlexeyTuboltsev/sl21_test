@@ -34,6 +34,7 @@ export enum EActionType {
   OPEN_MODAL = 'OPEN_MODAL',
   CLOSE_MODAL = 'CLOSE_MODAL',
   SHOW_STATION_INFO = 'SHOW_STATION_INFO',
+  SHOW_TRANSFER_INFO = 'SHOW_TRANSFER_INFO',
   REQUEST_STATION_INFO ='REQUEST_STATION_INFO',
   STATION_INFO_RECEIVED = 'STATION_INFO_RECEIVED',
 }
@@ -69,6 +70,7 @@ export const actions = {
   openModal: createAction(EActionType.OPEN_MODAL),
   closeModal: createAction(EActionType.CLOSE_MODAL),
   showStationInfo: createAction(EActionType.SHOW_STATION_INFO, withPayloadType<{stationId: string}>()),
+  showTransferInfo: createAction(EActionType.SHOW_TRANSFER_INFO, withPayloadType<{transferId: string}>()),
   
   requestStationInfo: createAction(EActionType.REQUEST_STATION_INFO, withPayloadType<{stationId: string}>()),
   stationInfoReceived: createAction(EActionType.STATION_INFO_RECEIVED, withPayloadType<{data:TStopData}>()),

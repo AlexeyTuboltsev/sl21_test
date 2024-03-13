@@ -2,7 +2,7 @@ import { call, put, delay } from "redux-saga/effects";
 import { createRequest, EHttpMethod } from "../services/httpRequest";
 import { AxiosResponse } from "axios";
 import { TSegment, TTimetableData, TStopData } from "../types";
-import { segments, stops } from "../test_data";
+import { segments1, stops } from "../test_data";
 
 export function* timetableLoaderSaga<ResponseType>(method: EHttpMethod, url: string, responseType: ResponseType, responseAction: any) {
   try {
@@ -30,5 +30,5 @@ export function* timetableLoaderSaga<ResponseType>(method: EHttpMethod, url: str
 
 function transformTimetableData(data: any): [TSegment[], TStopData[]] {
   //dummy transform request to internal data shape
-  return [segments, stops]
+  return [segments1, stops]
 }

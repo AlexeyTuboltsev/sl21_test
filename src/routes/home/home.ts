@@ -59,6 +59,16 @@ export const modalActions: TActionMap = {
       ))
     }
   },
+  [EActionType.SHOW_TRANSFER_INFO]: function* (state: TReadyAppState, action: ReturnType<typeof actions.openModal>) {
+    if (state.modalState.state !== EModalState.MODAL_OPEN) {
+      
+      return yield put(actions.setAppState(
+        produce(state, (nextState) => {
+          nextState.modalState = { state: EModalState.MODAL_OPEN, data: { state: EProcessState.READY, name: "transfer info (not implemented)" } as any }
+        })
+      ))
+    }
+  },
   [EActionType.SHOW_STATION_INFO]: function* (state: TReadyAppState, action: ReturnType<typeof actions.showStationInfo>) {
     if (state.modalState.state !== EModalState.MODAL_OPEN) {
 
