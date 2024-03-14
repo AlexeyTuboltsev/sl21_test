@@ -9,7 +9,7 @@ export type TRouteDef = {
   paramsParser?: ((params:{[key:string]:any}) => {[key:string]:string} | null) //todo
 }
 
-export type TRoute =
+export type TNavigationRoute =
   | ({ routeName: ERoute.HOME } )
 
 export const routeDefs:TRouteDef[] = [

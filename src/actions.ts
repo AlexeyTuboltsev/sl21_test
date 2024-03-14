@@ -1,8 +1,8 @@
-import { createAction } from '@reduxjs/toolkit'
-import { TResizeEventPayload } from "./services/resizeObserver";
-import { ELang } from "./services/i18n";
-import { TRoute } from "./router";
-import { TAppState, TSegment, TStopData } from './types';
+import {createAction} from '@reduxjs/toolkit'
+import {TResizeEventPayload} from "./services/resizeObserver";
+import {ELang} from "./services/i18n";
+import {TNavigationRoute} from "./router";
+import {TAppState, TInternalState, TRouteData, TStationData} from './types';
 
 function withPayloadType<T>() {
   return (t: T) => ({ payload: t })
@@ -13,6 +13,7 @@ export enum EActionType {
   INIT_STARTED = 'INIT_STARTED',
   INIT_ERROR = "INIT_ERROR",
   INIT_DONE = "INIT_DONE",
+  INITIAL_DATA_LOADED = "INITIAL_DATA_LOADED",
   SCREEN_RESIZE = 'SCREEN_RESIZE',
   CHANGE_LANGUAGE = 'CHANGE_LANGUAGE',
   REQUEST_ROUTE_CHANGE = 'REQUEST_ROUTE_CHANGE',
@@ -46,7 +47,7 @@ export const actions = {
   initStarted: createAction(EActionType.INIT_STARTED),
   initError: createAction(EActionType.INIT_ERROR, withPayloadType<{ errorMessage: string }>()),
   initDone: createAction(EActionType.INIT_DONE),
-
+  initialDataLoaded:createAction(EActionType.INITIAL_DATA_LOADED, withPayloadType<TInternalState>()),
   setAppState: createAction(EActionType.SET_APP_STATE, withPayloadType<TAppState>()),
 
   pointerYdown: createAction(EActionType.POINTER_Y_DOWN, withPayloadType<{ start: number }>()),
@@ -60,7 +61,7 @@ export const actions = {
   zoomXY: createAction(EActionType.ZOOM_XY, withPayloadType<{moveX: number, moveY: number}>()),
 
   requestTimetable: createAction(EActionType.REQUEST_TIMETABLE, withPayloadType<{routeId:string}>()),
-  timetableResponse: createAction(EActionType.TIMETABLE_RESPONSE, withPayloadType<[TSegment[], TStopData[]]>()),
+  timetableResponse: createAction(EActionType.TIMETABLE_RESPONSE, withPayloadType<TRouteData>()),
 
   
   timetablePointerDown: createAction(EActionType.TIMETABLE_POINTER_DOWN, withPayloadType<{x:number, y:number}>()),
@@ -70,14 +71,14 @@ export const actions = {
   openModal: createAction(EActionType.OPEN_MODAL),
   closeModal: createAction(EActionType.CLOSE_MODAL),
   showStationInfo: createAction(EActionType.SHOW_STATION_INFO, withPayloadType<{stationId: string}>()),
-  showTransferInfo: createAction(EActionType.SHOW_TRANSFER_INFO, withPayloadType<{transferId: string}>()),
+  showTransferInfo: createAction(EActionType.SHOW_TRANSFER_INFO, withPayloadType<{segmentId: string}>()),
   
   requestStationInfo: createAction(EActionType.REQUEST_STATION_INFO, withPayloadType<{stationId: string}>()),
-  stationInfoReceived: createAction(EActionType.STATION_INFO_RECEIVED, withPayloadType<{data:TStopData}>()),
+  stationInfoReceived: createAction(EActionType.STATION_INFO_RECEIVED, withPayloadType<{data:TStationData}>()),
 
   screenResize: createAction(EActionType.SCREEN_RESIZE, withPayloadType<TResizeEventPayload>()),
   changeLanguage: createAction(EActionType.CHANGE_LANGUAGE, withPayloadType<ELang>()),
-  requestRouteChange: createAction(EActionType.REQUEST_ROUTE_CHANGE, withPayloadType<TRoute>()),
+  requestRouteChange: createAction(EActionType.REQUEST_ROUTE_CHANGE, withPayloadType<TNavigationRoute>()),
   externalLink: createAction(EActionType.EXTERNAL_LINK, withPayloadType<string>()),
 }
 

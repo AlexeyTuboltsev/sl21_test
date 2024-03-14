@@ -1,17 +1,12 @@
-import { actions, EActionType, TAction } from "../actions";
-import { call, cancel, fork, put, select, take, cancelled } from "redux-saga/effects";
-import { EMenuType, EProcessState, TMenuItem, TReadyAppState } from "../types";
-import { findRouteGenerator } from "../routes/common/routeData";
+import {actions, EActionType, TAction} from "../actions";
+import {call, cancel, fork, put, select, take} from "redux-saga/effects";
+import {TReadyAppState} from "../types";
+import {findRouteGenerator} from "../routes/common/routeData";
 import isEqual from "lodash.isequal";
-import { Task } from "redux-saga";
-import { produce } from "immer";
-import { requestSaga } from "./requestSaga";
-import { EHttpMethod } from "../services/httpRequest";
-import { TResizeEventPayload } from "../services/resizeObserver";
-import { screenSize } from "../routes/common/screenSize";
-import { stat } from "fs";
-import { generateRoute } from "../routes/home/home";
-import { config } from "../config";
+import {Task} from "redux-saga";
+import {produce} from "immer";
+import {TResizeEventPayload} from "../services/resizeObserver";
+import {screenSize} from "../routes/common/screenSize";
 
 export function* uiSaga(screenSize: TResizeEventPayload) {
   let currentRouteDataGenerator: Task<any> | undefined = undefined;

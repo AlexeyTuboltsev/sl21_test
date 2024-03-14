@@ -1,34 +1,45 @@
-import React, { FC, useMemo, useRef } from 'react'
+import React, {FC, useMemo, useRef} from 'react'
 import styles from "../../components/App.module.scss";
-import { EModalState, EProcessState, ERulerYlineType, TModalData, TModalState, TReadyAppState, TRulerXdata, TRulerYdata, TTimetableData } from "../../types";
+import {
+  EModalState,
+  EProcessState,
+  ERulerYlineType,
+  TReadyAppState,
+  TRulerXdata,
+  TRulerYdata,
+  TTimetableData
+} from "../../types";
 import cn from 'classnames';
-import { useDispatch } from 'react-redux';
-import { actions } from '../../actions';
+import {useDispatch} from 'react-redux';
+import {actions} from '../../actions';
 
 
 export const Home: FC<{ state: TReadyAppState }> = ({ state }) => {
+  const dispatch = useDispatch();
   const ref = useRef<HTMLDivElement>(null);
 
   return <div className={styles.mainWrapper}>
-    <div className={styles.header}>
-      <div className={styles.title}>
-        08.03.24
-      </div>
-      <div className={styles.title}>
-        S3
-      </div>
 
+    <div className={styles.header}>
+      <div className={styles.routeSelector}>
+        <select
+            onChange={(e) => dispatch(actions.requestTimetable({routeId: e.target.value}))}
+            value={state.routeSelector.value}
+        >{
+          state.routeSelector.options.map(route => <option key={route.id} value={route.id}>{route.label}</option>)
+        }</select>
+      </div>
     </div>
     <div className={styles.content}>
       <div ref={ref} className={styles.timetableWrapper}>
-        <TimetableStates state={state} />
+        <TimetableStates state={state}/>
       </div>
       <Modal {...state.modalState} />
     </div>
   </div>
 }
 
-const TimetableStates: FC<{ state: TReadyAppState }> = ({ state }) => {
+const TimetableStates: FC<{ state: TReadyAppState }> = ({state}) => {
   switch (state.timetableState.state) { // :D
     case EProcessState.NOT_STARTED:
     case EProcessState.IN_PROGRESS:
@@ -84,7 +95,6 @@ const Timetable: FC<TTimetableData> = ({
   zoomedPositionY,
   rulerYdata,
   rulerXdata,
-  stationTrackData,
   moveX,
   moveY
 }) => {
@@ -114,7 +124,7 @@ const Timetable: FC<TTimetableData> = ({
           onMouseMove={(e) => dispatch(actions.timetablePointerMove({ x: e.movementX, y: e.nativeEvent.movementY }))}
           className={styles.timetable} width={timetableWidth} height={timetableHeight}
         />
-        {stationTrackData.map((stationTrack, i) => {
+        {rulerXdata.map((stationTrack, i) => {
           return <line
             key={stationTrack.key}
             className={styles.stationTrack}
@@ -126,22 +136,14 @@ const Timetable: FC<TTimetableData> = ({
         })}
         {routeParts
           .map((routePart, j) => {
-            return <g key={routePart.key} >
+            return <g key={routePart.segmentId} >
               <line
-                onClick={() => dispatch(actions.showTransferInfo(routePart.key as any))}
+                onClick={() => dispatch(actions.showTransferInfo({segmentId:routePart.segmentId}))}
                 className={styles.route}
-                x1={routePart.transfer.from.x}
-                y1={routePart.transfer.from.y}
-                x2={routePart.transfer.to.x}
-                y2={routePart.transfer.to.y}
-              />
-              <line
-                onClick={() => dispatch(actions.showTransferInfo(routePart.key as any))}
-                className={styles.stop}
-                x1={routePart.stop.from.x}
-                y1={routePart.stop.from.y}
-                x2={routePart.stop.to.x}
-                y2={routePart.stop.to.y}
+                x1={routePart.segmentCoordinates.from.x}
+                y1={routePart.segmentCoordinates.from.y}
+                x2={routePart.segmentCoordinates.to.x}
+                y2={routePart.segmentCoordinates.to.y}
               />
             </g>
           })}
@@ -206,10 +208,10 @@ const RulerX: FC<{ rulerWidth: number, contentWidth: number, rulerData: TRulerXd
               width={150} height={30}
               viewBox='0 -20 150 30' preserveAspectRatio='xMidYMid meet'>
               <text transform={`scale(${1 / zoomX} 1) `}
-                onClick={(e) => dispatch(actions.showStationInfo({ stationId: station.id }))}
+                onClick={(e) => dispatch(actions.showStationInfo({ stationId: station.stationId }))}
                 className={styles.rulerXStationName} x={0} y={0}
               >
-                {station.name}
+                {station.stationName}
               </text>
               {/* <rect className={styles.rulerXStationNameContainer} x=/> */}
             </svg>
@@ -281,7 +283,6 @@ function lockPointer(element: SVGRectElement | null, pointerId: number) {
 }
 
 function unlockPointer(element: SVGRectElement | null, pointerId: number) {
-  console.log(pointerId)
   if (element !== null && Number.isInteger(pointerId)) {
     element.releasePointerCapture(pointerId)
   }

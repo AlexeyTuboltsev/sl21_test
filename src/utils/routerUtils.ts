@@ -1,6 +1,6 @@
 import {compile, Key, pathToRegexp} from "path-to-regexp";
 import {BrowserHistory, createBrowserHistory} from "history";
-import {ERoute, routeDefs, TRoute, TRouteDef} from "../router";
+import {ERoute, routeDefs, TNavigationRoute, TRouteDef} from "../router";
 import {Dispatch} from "@reduxjs/toolkit";
 import {actions} from "../actions";
 
@@ -35,11 +35,11 @@ export function matchRoute(route: string, pathname: string) {
   };
 }
 
-function getRoutePattern(routes: TRouteDef[], route: TRoute) {
+function getRoutePattern(routes: TRouteDef[], route: TNavigationRoute) {
   return routes.find(r => r.routeName === route.routeName)
 }
 
-export function setLocation(history: BrowserHistory, routes: TRouteDef[], route: TRoute) {
+export function setLocation(history: BrowserHistory, routes: TRouteDef[], route: TNavigationRoute) {
   const routeDef = getRoutePattern(routes, route)
   if (routeDef) {
     const toPath = compile(routeDef.routePattern, {encode: encodeURIComponent});
@@ -54,7 +54,7 @@ export function setLocation(history: BrowserHistory, routes: TRouteDef[], route:
   }
 }
 
-export function getRoute(location: {pathname:string}): TRoute {
+export function getRoute(location: {pathname:string}): TNavigationRoute {
   let routeMatch = null
   for (const routeDef of routeDefs) {
     const result = matchRoute(routeDef.routePattern, location.pathname)
@@ -73,7 +73,7 @@ export function getRoute(location: {pathname:string}): TRoute {
 
     return parseResult === null
       ? {routeName: ERoute.HOME }
-      : {routeName: routeMatch.routeDef.routeName, params: parseResult} as TRoute
+      : {routeName: routeMatch.routeDef.routeName, params: parseResult} as TNavigationRoute
   }
 }
 

@@ -16,11 +16,10 @@ export function* rootSaga(dispatch: Dispatch, rootElement: HTMLElement, i18n: an
     switch(action.type){
       case EActionType.REQUEST_TIMETABLE:{
         const { routeId} = action.payload
-        yield call(timetableLoaderSaga, EHttpMethod.POST, `test_url/${routeId}`, 'json', actions.timetableResponse);
+        yield call(timetableLoaderSaga, routeId, actions.timetableResponse);
         break;
       }
       case EActionType.REQUEST_STATION_INFO:{
-        console.log("REQUEST_STATION_INFO")
         const { stationId} = action.payload
         yield call(stationInfoLoaderSaga, EHttpMethod.POST, `test_url/${stationId}`, stationId,'json', actions.stationInfoReceived);
         break;
